@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>tywa-client</title>
+	<script type="text/javascript">
+		webHost = "ws://{{.host}}/ws/{{ .tableId }}/{{ .playerId }}";
+	</script>
+	<script type="text/javascript" src="/closure/closure/goog/base.js"></script>
+	<script type="text/javascript" src="/scripts/jquery.js"></script>
+	<script type="text/javascript" src="/scripts/tywa-client.js"></script>
+	<script type="text/javascript">
+		var init = function() {
+			var img = new Image();
+			img.src = "/assets/sprtsht.png";
+			img.onload = function() {
+				tywa.start();
+			}
+		}
+	</script>
+</head>
+
+<body onload="init()" width="960" height="640">
+</body>
+
+</html>

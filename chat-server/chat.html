@@ -1,0 +1,90 @@
+<html>
+	<head>
+		<title>Chat Example</title>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script type="text/javascript">
+			
+			var conn, log;
+
+			function appendLog(msg) {
+				log = $(".log");
+
+		        var d = log;
+		        var doScroll = d.scrollTop == d.scrollHeight - d.clientHeight;
+		        msg.appendTo(log)
+		        if (doScroll) {
+		            d.scrollTop = d.scrollHeight - d.clientHeight;
+		        }
+		    }
+		
+			function initFormHandling() {
+				$(".form").submit(function() {
+			        if (!conn) {
+			            return false;
+			        }
+					
+					var msg = $(this).children('.msg');
+					if (!msg.val()) {
+			            return false;
+			        }
+
+					conn.send(msg.val());
+			        msg.val("");
+			        return false;
+			    });
+			}
+			
+			$(function() {
+		    	if (!window["WebSocket"]) {
+					appendLog($("<div><b>Your browser does not support WebSockets.</b></div>"))
+			        return;
+			    }
+				
+				conn = new WebSocket("ws://{{.host}}/ws/");
+				
+		        conn.onclose = function(evt) {
+		            appendLog($("<div><b>Connection closed.</b></div>"))
+		        }
+		        conn.onmessage = function(evt) {
+		            appendLog($("<div/>").text(evt.data))
+		        }
+				
+				initFormHandling();
+
+		    });
+		</script>
+		<style type="text/css">
+		.client {
+			height: 400px;
+			width: 300px;
+			float: left;
+			margin: 20px;
+		}
+
+		.log {
+			background: #fff;
+			border: 2px #ccc solid;
+			height: 370px;
+			padding: 5px;
+		}
+
+		.form {
+			height: 30px;
+			background: #ccc;
+			padding: 2px 5px;
+		}
+		
+		.form input[type=text] { width: 240px }
+
+		</style>
+	</head>
+	<body>
+		<div id="client1" class="client">
+			<div class="log"></div>
+			<form class="form">
+			    <input type="text" class="msg" />
+			    <input type="submit" value="Send" />
+			</form>
+		</div>
+	</body>
+</html>

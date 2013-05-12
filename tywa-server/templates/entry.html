@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Word Poker</title>
+		<style>
+			body { background: #000 }
+			.container {
+				background: url(/assets/entrypage.jpg) no-repeat top;
+				width: 1280px;
+				height: 860px;
+				margin: 0 auto;
+				position: relative;
+			}
+
+			.button {
+				display: block;
+				position: absolute;
+				background: url(/assets/PlayNowOn.png);
+				height: 59px;
+				width: 223px;
+				top: 700px;
+				left: 550px;
+			}
+			.button:active {
+				background: url(/assets/PlayNowDown.png);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<a class="button" href="http://{{.host}}"></a>
+		</div>
+	</body>
+</html

@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title>TYWA Console</title>
+		<script type="text/javascript" src="/scripts/jquery.js"></script>
+		<script type="text/javascript">
+			
+			var conn, log;
+			var gId = {{ .playerId }};
+			var gName = {{ .playerName }};
+
+			function appendLog(msg) {
+				if (msg != "") {
+					$(".log").html(msg + $(".log").html())
+				}
+			}
+		
+			function initFormHandling() {
+				$(".form").submit(function() {
+			        if (!conn) {
+			            return false;
+			        }
+					
+					var msg = $(this).children('.msg');
+					if (!msg.val()) {
+			            return false;
+			        }
+
+					conn.send(msg.val());
+			        msg.val("");
+			        return false;
+			    });
+			}
+			
+			$(function() {
+		    	if (!window["WebSocket"]) {
+					appendLog("<div><b>Your browser does not support WebSockets.</b></div>")
+			        return;
+			    }
+				
+		    	$("#id").html(gId)
+            	$("#name").html(gName)
+        
+				connUrl = "ws://{{.host}}/ws/";
+				console.log("connecting to: " + connUrl)
+				conn = new WebSocket(connUrl);
+				
+		        conn.onclose = function(evt) {
+		            appendLog("<div><b>Connection closed.</b></div>")
+		        }
+		        conn.onmessage = function(evt) {
+					msg = $.parseJSON(evt.data);
+					console.log(msg);
+					appendLog("<div>" + msg.Action + " | " + msg.PlayerIdx + "</div>");
+		        }
+				
+				initFormHandling();
+
+		    });
+		</script>
+		<link rel="stylesheet" media="all" href="/styles/global.css">
+		<link rel="stylesheet" media="all" href="/styles/console.css">
+	</head>
+	<body>
+		<div id="container">
+			<div id="client1" class="client">
+				<div class="log"></div>
+				<form class="form">
+				    <input type="text" class="msg" />
+				    <input type="submit" value="Send" />
+				</form>
+			</div>
+			<div class="gamestate" style="width: 220px">
+				{"Action": "word", "Word":"trash"}<br />
+				{"Action": "word", "Word":"talk"}<br />
+				{"Action": "word", "Word":"stands"}<br />
+				{"Action": "word", "Word":"asdfas"}<br />
+				{"Action": "swap", "Tiles":[0,3,4]}<br />
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<title>TYWA Lobby</title>
+		<link rel="stylesheet" media="all" href="/styles/global.css">
+		<script type="text/javascript">
+			image1 = new Image();
+			image1.src = "/assets/sprtsht.png";
+			image2 = new Image();
+			image2.src = "/assets/background.jpg";
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<header>
+				<h4 class="login">Hello {{ .PlayerName }}, <a href="/logout/">logout</a></h4>
+				<h1>WORD POKER</h1>
+			</header>
+			<table class="table-list" cellspacing="0" cellpadding="0">
+				<tr class="header">
+					<td class="col1">Table</td>
+					<td class="col2">Players</td>
+					<td class="col3">&nbsp;</td>
+					<td class="col3">&nbsp;</td>
+			{{ range $gameId, $game := .games }}
+				<tr>
+					<td class="col1">Table #{{ $gameId }}</td>
+					<td class="col2">
+				{{ range $pid, $p := $game.Players }}
+					{{ if $p }} {{ $p.Name }}; {{ end }}
+				{{ end }}&nbsp;
+					</td>
+					<td class="col3"><a href="/game/{{ $gameId }}">Join</a></td>
+					<td class="col3"><a href="/console/{{ $gameId }}">Console</a></td>
+			{{ end }}
+			</table>
+			<div class="ps">If you are out of cash, logout and login to reset your cash.</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<title>Word Poker - Login</title>
+		<link rel="stylesheet" media="all" href="/styles/global.css">
+		<link rel="stylesheet" media="all" href="/styles/login.css">
+		<script type="text/javascript">
+			image1 = new Image();
+			image1.src = "/assets/sprtsht.png";
+			image2 = new Image();
+			image2.src = "/assets/background.jpg";
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="login-box">
+				<h1 class="title">WORD POKER</h1>
+				<form action="/verify/" method="post">
+					<div class="label">Enter your name:</div>
+					<input name="player-name" type="text" class="player-name" maxlength="8" /><br />
+					<input type="submit" value="Login" />
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

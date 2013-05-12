@@ -1,0 +1,30 @@
+.client {
+	height: 400px;
+	width: 300px;
+	float: left;
+}
+
+.log {
+	background: #fff;
+	border: 2px #ccc solid;
+	height: 370px;
+	padding: 5px;
+	overflow: auto;
+}
+
+.form {
+	height: 30px;
+	background: #ccc;
+	padding: 2px 5px;
+}
+
+.gamestate {
+	height: 395px;
+	width: 280px;
+	float: left;
+	margin: 0 0 0 20px;
+	border: 1px #ccc solid;
+	padding: 10px;
+}
+
+.form input[type=text] { width: 240px }

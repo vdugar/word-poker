@@ -1,0 +1,6 @@
+tywa-server/src/wordpoker/wordpoker
+tywa-server/bin/
+tywa-server/pkg/
+tywa-server/test/
+.DS_Store
+*.pyc

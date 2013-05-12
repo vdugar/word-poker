@@ -1,0 +1,71 @@
+body, p, td, textarea {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	line-height: 28px;
+	color: #333;
+}
+
+a { text-decoration: none; color: #c00; }
+a:hover { text-decoration: underline; }
+
+#container {
+	width: 900px;
+	margin: 40px auto;
+}
+
+header .login {
+	float: right;
+	margin: 0;
+	color: #666;
+	font-size: 14px;
+	text-transform: capitalize;
+}
+
+header .login a {
+	text-transform: lowercase;
+}
+
+table.table-list {
+	border-left: 1px #333 solid;
+	border-top: 1px #333 solid;
+	width: 100%;
+}
+
+table.table-list td {
+	padding: 2px 4px;
+	border-right: 1px #333 solid;
+	border-bottom: 1px #333 solid;
+}
+
+table.table-list tr:nth-child(odd) {
+	background: #efefef;
+}
+
+table.table-list td.col1 {
+	width: 150px;
+	text-align: center;
+}
+
+table.table-list td.col3 {
+	width: 150px;
+	text-align: center;
+}
+
+table.table-list a {
+	font-weight: bold;
+}
+
+tr.header {
+	background-color: #666 !important;
+}
+
+tr.header td {
+	color: #fff;
+	text-align: center;
+}
+
+.ps {
+	margin-top: 10px;
+	color: #900;
+	text-align: center;
+}

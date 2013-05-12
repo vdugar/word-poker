@@ -1,0 +1,105 @@
+<html>
+	<head>
+		<title>TYWA Console</title>
+		<script type="text/javascript" src="/scripts/jquery.js"></script>
+		<script type="text/javascript">
+			
+			var conn, log;
+			var gId = {{ .playerId }};
+			var gName = {{ .playerName }};
+
+			function appendLog(msg) {
+				if (msg != "") {
+					$(".log").html(msg + $(".log").html())
+				}
+			}
+		
+			function initFormHandling() {
+				$(".form").submit(function() {
+			        if (!conn) {
+			            return false;
+			        }
+					
+					var msg = $(this).children('.msg');
+					if (!msg.val()) {
+			            return false;
+			        }
+
+					conn.send(msg.val());
+			        msg.val("");
+			        return false;
+			    });
+			}
+			
+			$(function() {
+		    	if (!window["WebSocket"]) {
+					appendLog("<div><b>Your browser does not support WebSockets.</b></div>")
+			        return;
+			    }
+				
+		    	$("#id").html(gId)
+            	$("#name").html(gName)
+        
+				connUrl = "ws://{{.host}}/ws/{{.tableId}}/";
+				console.log("connecting to: " + connUrl)
+				conn = new WebSocket(connUrl);
+				
+		        conn.onclose = function(evt) {
+		            appendLog("<div><b>Connection closed.</b></div>")
+		            window.location = "/lobby/";
+		        }
+		        conn.onmessage = function(evt) {
+					msg = $.parseJSON(evt.data);
+					console.log(msg);
+					appendLog("<div>" + msg.Action + " | " + msg.PlayerIdx + "</div>");
+					switch (msg.Action) {
+					case 'bye':		console.log("thrown out of room... Returning to lobby.");
+									conn.close()
+									window.location = "/lobby/";
+		            }
+					$("#potAmount").html(msg.GameState.PotAmount)
+					$("#gameState").html(msg.GameState.State)
+					$("#currentBet").html(msg.GameState.CurrentBetAmount)
+		        }
+				
+				initFormHandling();
+
+		    });
+		</script>
+		<link rel="stylesheet" media="all" href="/styles/global.css">
+		<link rel="stylesheet" media="all" href="/styles/console.css">
+	</head>
+	<body>
+		<div id="container">
+			<header>
+				<h4 class="login">Hello {{ .PlayerName }}, <a href="/lobby/">lobby</a> | <a href="/logout/">logout</a></h4>
+				<h1>WORD POKER</h1>
+			</header>
+			<h4>Player Name: <span id="name"></span> (ID: <span id="id"></span>)</h4>
+			<div id="client1" class="client">
+				<div class="log"></div>
+				<form class="form">
+				    <input type="text" class="msg" />
+				    <input type="submit" value="Send" />
+				</form>
+			</div>
+			<div id="gamestate" class="gamestate">
+				<table>
+					<tr><td>Pot Amount:</td><td id="potAmount"></td></tr>
+					<tr><td>Game State:</td><td id="gameState"></td></tr>
+					<tr><td>Current Bet:</td><td id="currentBet"></td></tr>
+				</table>
+			</div>
+			<div class="gamestate" style="width: 220px">
+				{"BetAction": "raise", "BetAmount": 10}<br />
+				{"BetAction": "call"}<br />
+				{"BetAction": "allin"}<br />
+				{"BetAction": "fold"}<br />
+				{"BetAction": "check"}<br />
+				{"Word": "awesome"}<br />
+				{"Word": "arpan"}<br />
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</body>
+</html>
